@@ -9,7 +9,7 @@
     "start": "node dist/app.js",
     "build": "npm run lint && npm run build-ts",
     "build-ts": "tsc",
-    "postinstall": "ln -s $HOME/Downloads/instantclient_19_8/libclntsh.dylib $(npm root)/oracledb/build/Release"
+    "postinstall": "ln -s $HOME/Downloads/instantclient_21_1/libclntsh.so $(npm root)/oracledb/build/Release"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +19,7 @@
     "@koa/router": "^10.0.0",
     "class-validator": "^0.13.1",
     "cron": "^1.8.2",
-    "dotenv": "^10.0.0",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-convert": "^2.0.0",
@@ -27,7 +27,7 @@
     "koa-jwt": "^4.0.1",
     "koa-router": "^10.0.0",
     "koa-session": "^6.2.0",
-    "nodemon": "^2.0.9",
+    "koa-swagger-decorator": "^1.7.5",
     "oracledb": "^5.2.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.34",
@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@types/cron": "^1.7.2",
+    "@types/jsonwebtoken": "^8.5.3",
     "@types/koa": "^2.13.3",
     "@types/koa-bodyparser": "^4.3.1",
     "@types/koa-convert": "^1.2.3",
@@ -46,9 +47,10 @@
     "@types/validator": "^13.6.0",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
+    "dotenv": "^10.0.0",
     "esbuild": "^0.12.14",
     "eslint": "^7.29.0",
-    "koa-swagger-decorator": "^1.7.5",
+    "nodemon": "^2.0.9",
     "supervisor": "^0.12.0",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.5"

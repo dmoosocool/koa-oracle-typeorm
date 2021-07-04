@@ -1,5 +1,5 @@
 import { Context } from 'koa'
-import { getManager, Repository, Not, Equal } from 'typeorm'
+import { getManager, Repository, Not, Equal, getRepository } from 'typeorm'
 import { validate, ValidationError } from 'class-validator'
 import {
   request,
@@ -61,13 +61,19 @@ export default class UserController {
   @body(UserSchema)
   public static async createUser(ctx: Context): Promise<void> {
     // get a user repository to perform operations with user
-    const userRepository: Repository<User> = getManager().getRepository(User)
+    const userRepository: Repository<User> = getRepository(User)
 
     // build up entity user to be saved
     const userToBeSaved: User = new User()
+    userToBeSaved.id = (ctx.request.body as unknown as User).id
     userToBeSaved.name = (ctx.request.body as unknown as User).name
     userToBeSaved.email = (ctx.request.body as unknown as User).email
+    console.log(userToBeSaved)
 
+    // 
+    // NOTE: can not use findOne: ORA-00933: SQL command not properly ended
+    const isExisted = await userRepository.find({ where: [{email: userToBeSaved.email}]})
+    console.log(isExisted)
     // validate user entity
     const errors: ValidationError[] = await validate(userToBeSaved) // errors is an array of validation errors
 
@@ -75,7 +81,7 @@ export default class UserController {
       // return BAD REQUEST status code and errors array
       ctx.status = 400
       ctx.body = errors
-    } else if (await userRepository.findOne({ email: userToBeSaved.email })) {
+    } else if (isExisted.length > 0) {
       // return BAD REQUEST status code and email already exists error
       ctx.status = 400
       ctx.body = 'The specified e-mail address already exists'
